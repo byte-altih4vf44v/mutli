@@ -1,0 +1,23 @@
+name: Verify deployed Apps Script prices
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/verify-appscript-prices.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send test orders
+        shell: bash
+        run: |
+          endpoint='https://script.google.com/macros/s/AKfycbx77kwVZJtKNO7Ymi7Ks2oGUUq-vRj9Kell84ziwAhvAUp34RAcR5g-2kymdWHfdJjcyQ/exec'
+          for offer in 1 2 3; do
+            curl -sS -X POST "$endpoint"               -H 'Content-Type: text/plain;charset=utf-8'               --data "{\"name\":\"VERIFY_NEW_PRICE_$offer\",\"phone\":\"050000010$offer\",\"address\":\"TEST\",\"offerCode\":$offer,\"country\":\"SA\",\"sku\":\"MULTI-COLLAGEN\",\"product\":\"Multi Collagen Peptides\",\"currency\":\"SAR\",\"pageUrl\":\"https://multicollagenksa.github.io/\",\"utm\":{}}" >/dev/null || true
+          done
+          echo "sent"
