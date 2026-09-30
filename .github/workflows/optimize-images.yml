@@ -1,0 +1,92 @@
+name: Optimize landing images
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/optimize-images.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install Pillow
+        run: python -m pip install --quiet Pillow
+
+      - name: Convert PNG images to optimized WebP
+        run: |
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          import re
+
+          names = ["01-main", "02-why", "03-results", "04-reviews", "05-offers"]
+
+          for name in names:
+              src = Path("assets") / f"{name}.png"
+              out = Path("assets") / f"{name}.webp"
+              img = Image.open(src)
+              w, h = img.size
+
+              if img.mode in ("RGBA", "LA"):
+                  bg = Image.new("RGB", img.size, "white")
+                  alpha = img.getchannel("A")
+                  bg.paste(img.convert("RGB"), mask=alpha)
+                  img = bg
+              else:
+                  img = img.convert("RGB")
+
+              img.save(out, "WEBP", quality=88, method=6, optimize=True)
+              before = src.stat().st_size
+              after = out.stat().st_size
+              print(f"{name}: {w}x{h} | {before/1024/1024:.2f} MB -> {after/1024/1024:.2f} MB")
+
+          index_path = Path("index.html")
+          html = index_path.read_text(encoding="utf-8")
+
+          for name in names:
+              html = html.replace(f"assets/{name}.png", f"assets/{name}.webp")
+
+          html = html.replace(
+              '<link rel="stylesheet" href="styles.css?v=20260930-2">',
+              '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+              '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+              '  <link rel="preload" as="image" href="assets/01-main.webp" type="image/webp" fetchpriority="high">\n'
+              '  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">\n'
+              '  <link rel="stylesheet" href="styles.css?v=20260930-3">'
+          )
+
+          html = html.replace('fetchpriority="high">', 'fetchpriority="high" decoding="async">')
+          html = html.replace('loading="lazy">', 'loading="lazy" decoding="async">')
+          html = html.replace('src="app.js?v=20260930-2"', 'src="app.js?v=20260930-3" defer')
+
+          index_path.write_text(html, encoding="utf-8")
+
+          css_path = Path("styles.css")
+          css = css_path.read_text(encoding="utf-8")
+          css = re.sub(r"^@import url\([^\n]+\);\n?", "", css)
+          css_path.write_text(css, encoding="utf-8")
+          PY
+
+      - name: Commit optimized assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*.webp index.html styles.css
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Optimize landing page images for faster mobile loading"
+            git push
+          fi
