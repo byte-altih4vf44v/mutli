@@ -85,3 +85,31 @@ orderForm.addEventListener('submit', async event => {
     status.textContent = 'تعذر إرسال الطلب الآن. تحققي من اتصال الإنترنت وحاولي مرة أخرى.';
   }
 });
+
+
+/* زر الوصول السريع إلى الطلب على الهاتف */
+const stickyOrderButton = document.querySelector('.sticky-order');
+const orderSection = document.getElementById('order');
+let stickyOrderDismissed = false;
+
+if (stickyOrderButton && orderSection) {
+  stickyOrderButton.addEventListener('click', event => {
+    event.preventDefault();
+    stickyOrderDismissed = true;
+    stickyOrderButton.classList.add('is-hidden');
+    orderSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+
+  if ('IntersectionObserver' in window) {
+    const checkoutObserver = new IntersectionObserver(entries => {
+      const checkoutVisible = entries.some(entry => entry.isIntersecting);
+      if (stickyOrderDismissed || checkoutVisible) {
+        stickyOrderButton.classList.add('is-hidden');
+      } else {
+        stickyOrderButton.classList.remove('is-hidden');
+      }
+    }, {threshold: 0.18});
+
+    checkoutObserver.observe(orderSection);
+  }
+}
