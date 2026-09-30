@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff">
+  <title>سر الإشراقة والجمال من الداخل</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <section class="page-images" aria-label="صور صفحة المنتج">
+      <a href="#order" aria-label="الانتقال إلى نموذج الطلب"><img src="assets/01-main.png" alt="Multi Collagen Peptides — صورة المنتج والعرض الرئيسي" fetchpriority="high"></a>
+      <img src="assets/02-why.png" alt="ما الذي يساعد عليه المنتج ومكوناته" loading="lazy">
+      <img src="assets/03-results.png" alt="نتائج المنتج المعروضة" loading="lazy">
+      <img src="assets/04-reviews.png" alt="آراء عميلات حول المنتج" loading="lazy">
+      <a href="#order" aria-label="الانتقال إلى اختيار الباقة"><img src="assets/05-offers.png" alt="قصص وتجارب وعروض المنتج" loading="lazy"></a>
+    </section>
+
+    <section class="order-section" id="order">
+      <div class="order-wrap">
+        <div class="intro"><h1>اختاري باقتك… وكل ما زادت الكمية زاد التوفير 💗</h1><p>املئي بياناتك لإرسال طلبك — الدفع عند الاستلام</p></div>
+        <form id="order-form" class="order-card">
+          <fieldset class="offers"><legend class="visually-hidden">اختاري باقتك</legend>
+            <label class="offer"><input type="radio" name="offer" value="1" checked><span class="details"><b>1 عبوة</b><small>تكفيك شهر</small></span><span class="price"><strong>198 ريال</strong><del>345 ريال</del></span></label>
+            <label class="offer"><input type="radio" name="offer" value="2"><span class="details"><b>2 عبوة</b><small>تكفيك شهرين</small></span><span class="price"><strong>294 ريال</strong><small>وفري 102 ريال</small></span></label>
+            <label class="offer"><input type="radio" name="offer" value="3"><span class="details"><b>3 عبوات</b><small>تكفيك 3 أشهر</small></span><span class="price"><strong>376 ريال</strong><small>وفري 218 ريال 🔥</small></span></label>
+          </fieldset>
+          <div class="fields">
+            <label><span class="visually-hidden">الاسم الكامل</span><input name="name" autocomplete="name" placeholder="الإسم الكامل" required minlength="2"></label>
+            <label><span class="visually-hidden">رقم الهاتف</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="رقم الهاتف" required></label>
+            <label><span class="visually-hidden">العنوان</span><input name="address" autocomplete="street-address" placeholder="العنوان" required></label>
+          </div>
+          <p class="check-note">الرجاء التأكد من معلوماتك قبل الإرسال</p>
+          <button class="submit" type="submit">إرسال الطلب - الدفع عند الاستلام</button>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+        <p class="bottom-note">اطلبي Multi Collagen Peptides الآن واستفيدي من الخصم</p>
+      </div>
+    </section>
+  </main>
+  <a class="sticky-order" href="#order">اطلبي الآن واستفيدي من الخصم</a>
+  <script src="app.js"></script>
+</body>
+</html>
