@@ -27,6 +27,24 @@ const CONFIG = {
 })();
 
 const orderForm = document.getElementById('order-form');
+let checkoutTracked = false;
+
+function trackStartCheckout() {
+  if (checkoutTracked || !window.snaptr) return;
+  const values = new FormData(orderForm);
+  const selected = CONFIG.offers[Number(values.get('offer')) - 1];
+  if (!selected) return;
+
+  checkoutTracked = true;
+  window.snaptr('track', 'START_CHECKOUT', {
+    price: selected.price,
+    currency: 'SAR',
+    item_ids: [CONFIG.sku]
+  });
+}
+
+orderForm.addEventListener('focusin', trackStartCheckout, {once: true});
+orderForm.addEventListener('change', trackStartCheckout, {once: true});
 
 orderForm.addEventListener('submit', async event => {
   event.preventDefault();
@@ -61,14 +79,7 @@ orderForm.addEventListener('submit', async event => {
     pageUrl: window.location.href,
     source: 'Cosma Collagen Landing Page'
   };
-
-  if (window.snaptr && selected) {
-    window.snaptr('track', 'START_CHECKOUT', {
-      price: selected.price,
-      currency: 'SAR',
-      item_ids: [CONFIG.sku]
-    });
-  }
+  trackStartCheckout();
 
   button.disabled = true;
   button.textContent = 'جارٍ إرسال طلبك…';
