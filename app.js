@@ -1,6 +1,6 @@
 /* رابط Google Apps Script المنشور لاستقبال طلبات النموذج. */
 const CONFIG = {
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbyrel31qYVsojyCh-MbPIzZ7o0rCoj9_baaXN60H5N0VMMfBjCzK9rtSujkFLW8SKhULQ/exec',
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbx77kwVZJtKNO7Ymi7Ks2oGUUq-vRj9Kell84ziwAhvAUp34RAcR5g-2kymdWHfdJjcyQ/exec',
   snapPixelId: '233915bf-25f6-4119-9362-701fe3212185',
   product: 'Multi Collagen Peptides',
   offers: [
