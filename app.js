@@ -86,30 +86,45 @@ orderForm.addEventListener('submit', async event => {
   }
 });
 
-
 /* زر الوصول السريع إلى الطلب على الهاتف */
 const stickyOrderButton = document.querySelector('.sticky-order');
 const orderSection = document.getElementById('order');
-let stickyOrderDismissed = false;
 
 if (stickyOrderButton && orderSection) {
-  stickyOrderButton.addEventListener('click', event => {
-    event.preventDefault();
+  let stickyOrderDismissed = false;
+
+  const hideStickyOrder = () => {
+    if (stickyOrderDismissed) return;
     stickyOrderDismissed = true;
     stickyOrderButton.classList.add('is-hidden');
+  };
+
+  const checkCheckoutPosition = () => {
+    if (stickyOrderDismissed) return;
+    const rect = orderSection.getBoundingClientRect();
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+
+    if (rect.top <= viewportHeight * 0.88) {
+      hideStickyOrder();
+    }
+  };
+
+  stickyOrderButton.addEventListener('click', event => {
+    event.preventDefault();
+    hideStickyOrder();
     orderSection.scrollIntoView({behavior: 'smooth', block: 'start'});
   });
 
-  if ('IntersectionObserver' in window) {
-    const checkoutObserver = new IntersectionObserver(entries => {
-      const checkoutVisible = entries.some(entry => entry.isIntersecting);
-      if (stickyOrderDismissed || checkoutVisible) {
-        stickyOrderButton.classList.add('is-hidden');
-      } else {
-        stickyOrderButton.classList.remove('is-hidden');
-      }
-    }, {threshold: 0.18});
+  orderSection.addEventListener('focusin', hideStickyOrder);
+  orderSection.addEventListener('pointerdown', hideStickyOrder, {passive: true});
 
-    checkoutObserver.observe(orderSection);
+  window.addEventListener('scroll', checkCheckoutPosition, {passive: true});
+  window.addEventListener('resize', checkCheckoutPosition, {passive: true});
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', checkCheckoutPosition, {passive: true});
+    window.visualViewport.addEventListener('scroll', checkCheckoutPosition, {passive: true});
   }
+
+  requestAnimationFrame(checkCheckoutPosition);
 }
