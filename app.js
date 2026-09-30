@@ -3,6 +3,7 @@ const CONFIG = {
   scriptUrl: 'https://script.google.com/macros/s/AKfycbxxBGHE4mZ5iDdplvvaFxVhrHoOMETyRoafgk8iG-DGx9vhY27JgFhc3VHFBO22hu4x0w/exec',
   snapPixelId: '233915bf-25f6-4119-9362-701fe3212185',
   product: 'Multi Collagen Peptides',
+  sku: 'MULTI-COLLAGEN',
   offers: [
     { label: '1 عبوة — تكفيك شهر', price: 189 },
     { label: '2 عبوة — تكفيك شهرين', price: 249 },
