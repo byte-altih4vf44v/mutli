@@ -34,7 +34,10 @@ orderForm.addEventListener('submit', async event => {
     status.textContent = 'تحققي من رقم الهاتف ثم حاولي مرة أخرى.';
     return;
   }
+  const transactionId = 'MC-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10).toUpperCase();
+
   const payload = {
+    transactionId,
     product: CONFIG.product,
     name: String(values.get('name') || '').trim(),
     phone,
@@ -48,6 +51,14 @@ orderForm.addEventListener('submit', async event => {
     pageUrl: window.location.href,
     source: 'Landing Page'
   };
+  if (window.snaptr && selected) {
+    window.snaptr('track', 'START_CHECKOUT', {
+      price: selected.price,
+      currency: 'SAR',
+      item_ids: ['MULTI-COLLAGEN']
+    });
+  }
+
   button.disabled = true;
   button.textContent = 'جارٍ إرسال طلبك…';
   try {
@@ -57,6 +68,16 @@ orderForm.addEventListener('submit', async event => {
       headers: {'Content-Type': 'text/plain;charset=utf-8'},
       body: JSON.stringify({...payload, utm: Object.fromEntries(new URLSearchParams(window.location.search))})
     });
+
+    if (window.snaptr && selected) {
+      window.snaptr('track', 'PURCHASE', {
+        price: selected.price,
+        currency: 'SAR',
+        transaction_id: transactionId,
+        item_ids: ['MULTI-COLLAGEN']
+      });
+    }
+
     orderForm.innerHTML = '<div class="success"><span>✓</span><h2>تم استلام طلبك</h2><p>شكرًا لك. سيُستخدم رقم هاتفك للتواصل معك وتأكيد بيانات الطلب.</p></div>';
   } catch (error) {
     button.disabled = false;
