@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#073665">
+  <meta name="description" content="Cosma Collagen — روتين يومي بسيط للعناية بالجمال من الداخل.">
+  <title>Cosma Collagen | جمالك يبدأ من الداخل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="assets/01-hero.webp" type="image/webp" fetchpriority="high">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+  <main>
+    <section class="page-images" aria-label="صفحة Cosma Collagen">
+      <a href="#order" aria-label="شاهدي العروض">
+        <img width="720" height="1279" src="assets/01-hero.webp" alt="Cosma Collagen — روتين الجمال اليومي" fetchpriority="high" decoding="async">
+      </a>
+      <img width="720" height="1279" src="assets/02-benefits.webp" alt="فوائد ومكونات Cosma Collagen" loading="lazy" decoding="async">
+      <img width="720" height="1279" src="assets/03-results.webp" alt="تجارب ونتائج مع Cosma Collagen" loading="lazy" decoding="async">
+      <img width="720" height="1279" src="assets/04-reviews.webp" alt="آراء وتجارب عميلات Cosma Collagen" loading="lazy" decoding="async">
+      <a href="#order" aria-label="انتقلي إلى اختيار العرض">
+        <img width="720" height="1279" src="assets/05-routine.webp" alt="طريقة استخدام Cosma Collagen" loading="lazy" decoding="async">
+      </a>
+    </section>
+
+    <section class="order-section" id="order">
+      <div class="order-wrap">
+        <div class="intro">
+          <span class="eyebrow">COSMA COLLAGEN</span>
+          <h1>اختاري روتينك المناسب 💙</h1>
+          <p>كلما زادت الكمية زاد التوفير — الدفع عند الاستلام</p>
+        </div>
+
+        <div class="trust-row" aria-label="مزايا الطلب">
+          <span>✓ دفع عند الاستلام</span>
+          <span>✓ طلب سريع وآمن</span>
+          <span>✓ عروض توفير واضحة</span>
+        </div>
+
+        <form id="order-form" class="order-card">
+          <fieldset class="offers">
+            <legend class="visually-hidden">اختاري الباقة</legend>
+
+            <label class="offer">
+              <input type="radio" name="offer" value="1" checked>
+              <span class="details">
+                <b>باقة البداية</b>
+                <small>1 عبوة — 30 حصة</small>
+              </span>
+              <span class="price">
+                <strong>185 ريال</strong>
+                <small>لبداية روتينك</small>
+              </span>
+            </label>
+
+            <label class="offer">
+              <input type="radio" name="offer" value="2">
+              <span class="details">
+                <b>باقة التوفير</b>
+                <small>2 عبوة — 60 حصة</small>
+              </span>
+              <span class="price">
+                <strong>249 ريال</strong>
+                <small>وفري 121 ريال</small>
+              </span>
+            </label>
+
+            <label class="offer featured">
+              <input type="radio" name="offer" value="3">
+              <span class="badge">أفضل قيمة</span>
+              <span class="details">
+                <b>الباقة الذهبية</b>
+                <small>3 عبوات — 90 حصة</small>
+              </span>
+              <span class="price">
+                <strong>290 ريال</strong>
+                <small>وفري 265 ريال 🔥</small>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="fields">
+            <label><span class="visually-hidden">الاسم الكامل</span><input name="name" autocomplete="name" placeholder="الإسم الكامل" required minlength="2"></label>
+            <label><span class="visually-hidden">رقم الهاتف</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="رقم الهاتف" required></label>
+            <label><span class="visually-hidden">العنوان</span><input name="address" autocomplete="street-address" placeholder="العنوان" required></label>
+          </div>
+
+          <p class="check-note">الرجاء التأكد من معلوماتك قبل الإرسال</p>
+          <button class="submit" type="submit">إرسال الطلب - الدفع عند الاستلام</button>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="bottom-note">ابدئي روتينك مع Cosma Collagen اليوم</p>
+      </div>
+    </section>
+  </main>
+
+  <a class="sticky-order" href="#order" aria-label="شاهدي العروض وانتقلي إلى نموذج الطلب">
+    <span class="sticky-text">شاهدي العروض وابدئي روتينك</span>
+    <span class="sticky-arrow" aria-hidden="true">↓</span>
+  </a>
+
+  <script src="app.js?v=1" defer></script>
+</body>
+</html>
