@@ -14,7 +14,7 @@ const CONFIG = {
   if (!CONFIG.snapPixelId || CONFIG.snapPixelId === 'YOUR_PIXEL_ID') return;
   (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u)})(window,document,'https://sc-static.net/scevent.min.js');
   window.snaptr('init', CONFIG.snapPixelId);
-  window.snaptr('track', 'PAGE_VIEW');
+  window.snaptr('track', 'PAGE_VIEW', {item_ids:[CONFIG.sku]});
 })();
 
 const orderForm = document.getElementById('order-form');
@@ -55,7 +55,7 @@ orderForm.addEventListener('submit', async event => {
     window.snaptr('track', 'START_CHECKOUT', {
       price: selected.price,
       currency: 'SAR',
-      item_ids: ['MULTI-COLLAGEN']
+      item_ids: [CONFIG.sku]
     });
   }
 
@@ -74,7 +74,7 @@ orderForm.addEventListener('submit', async event => {
         price: selected.price,
         currency: 'SAR',
         transaction_id: transactionId,
-        item_ids: ['MULTI-COLLAGEN']
+        item_ids: [CONFIG.sku]
       });
     }
 
