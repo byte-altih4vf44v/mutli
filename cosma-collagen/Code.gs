@@ -5,9 +5,9 @@ const PRODUCTS = {
   'MULTI-COLLAGEN': {
     product: 'Multi Collagen Peptides',
     packages: {
-      1: {label: '1 عبوة — تكفيك شهر', price: 199},
-      2: {label: '2 عبوة — تكفيك شهرين', price: 259},
-      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 299}
+      1: {label: '1 عبوة — تكفيك شهر', price: 189},
+      2: {label: '2 عبوة — تكفيك شهرين', price: 249},
+      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 290}
     }
   },
   'COSMA-COLLAGEN': {
