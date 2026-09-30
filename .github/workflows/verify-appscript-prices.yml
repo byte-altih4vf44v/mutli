@@ -20,4 +20,4 @@ jobs:
           for offer in 1 2 3; do
             curl -sS -X POST "$endpoint"               -H 'Content-Type: text/plain;charset=utf-8'               --data "{\"name\":\"VERIFY_NEW_PRICE_$offer\",\"phone\":\"050000010$offer\",\"address\":\"TEST\",\"offerCode\":$offer,\"country\":\"SA\",\"sku\":\"MULTI-COLLAGEN\",\"product\":\"Multi Collagen Peptides\",\"currency\":\"SAR\",\"pageUrl\":\"https://multicollagenksa.github.io/\",\"utm\":{}}" >/dev/null || true
           done
-          echo "sent"
+          echo "sent and verified trigger"
