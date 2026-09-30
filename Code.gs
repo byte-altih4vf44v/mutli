@@ -18,9 +18,9 @@ function doPost(e) {
       if (!String(order[key] || '').trim()) throw new Error('بيانات طلب ناقصة');
     });
     const packages = {
-      1: {label: '1 عبوة — تكفيك شهر', price: 198},
-      2: {label: '2 عبوة — تكفيك شهرين', price: 294},
-      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 376}
+      1: {label: '1 عبوة — تكفيك شهر', price: 199},
+      2: {label: '2 عبوة — تكفيك شهرين', price: 259},
+      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 299}
     };
     const selected = packages[Number(order.offerCode)];
     if (!selected) throw new Error('العرض غير صالح');
