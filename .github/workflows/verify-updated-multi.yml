@@ -1,0 +1,29 @@
+name: Verify updated Multi prices
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/verify-updated-multi.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send verification orders
+        shell: bash
+        run: |
+          endpoint='https://script.google.com/macros/s/AKfycbxxBGHE4mZ5iDdplvvaFxVhrHoOMETyRoafgk8iG-DGx9vhY27JgFhc3VHFBO22hu4x0w/exec'
+
+          for offer in 1 2 3; do
+            curl -sS -X POST "$endpoint"               -H 'Content-Type: text/plain;charset=utf-8'               --data "{\"name\":\"VERIFY_MULTI_NEW_$offer\",\"phone\":\"050300000$offer\",\"address\":\"TEST\",\"offerCode\":$offer,\"country\":\"SA\",\"sku\":\"MULTI-COLLAGEN\",\"product\":\"Multi Collagen Peptides\",\"currency\":\"SAR\",\"pageUrl\":\"https://multicollagenksa.github.io/\",\"utm\":{}}" >/dev/null || true
+          done
+
+          for offer in 1 2 3; do
+            curl -sS -X POST "$endpoint"               -H 'Content-Type: text/plain;charset=utf-8'               --data "{\"name\":\"VERIFY_COSMA_KEEP_$offer\",\"phone\":\"050400000$offer\",\"address\":\"TEST\",\"offerCode\":$offer,\"country\":\"SA\",\"sku\":\"COSMA-COLLAGEN\",\"product\":\"Cosma Collagen\",\"currency\":\"SAR\",\"pageUrl\":\"https://multicollagenksa.github.io/cosma-collagen/\",\"utm\":{}}" >/dev/null || true
+          done
+
+          echo "sent"
