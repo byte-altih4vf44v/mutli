@@ -93,3 +93,5 @@
 
 .success{text-align:center;padding:24px 8px}.success>span{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#e8f3eb;color:#2f7545;font-size:28px}.success h2{color:var(--plum);margin:13px 0 5px;font-size:24px}.success p{color:var(--muted);font-size:14px;margin:0}
 .submit:disabled{opacity:.7;cursor:wait}
+
+.fields input[type="tel"]{direction:rtl;text-align:right}
