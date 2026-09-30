@@ -4,9 +4,9 @@ const CONFIG = {
   snapPixelId: '233915bf-25f6-4119-9362-701fe3212185',
   product: 'Multi Collagen Peptides',
   offers: [
-    { label: '1 عبوة — تكفيك شهر', price: 198 },
-    { label: '2 عبوة — تكفيك شهرين', price: 294 },
-    { label: '3 عبوات — تكفيك 3 أشهر', price: 376 }
+    { label: '1 عبوة — تكفيك شهر', price: 199 },
+    { label: '2 عبوة — تكفيك شهرين', price: 259 },
+    { label: '3 عبوات — تكفيك 3 أشهر', price: 299 }
   ]
 };
 
