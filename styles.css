@@ -14,27 +14,58 @@
     transform:translateX(-50%);
     align-items:center;
     justify-content:center;
-    gap:8px;
+    gap:9px;
     width:auto;
-    min-width:170px;
-    max-width:calc(100vw - 32px);
-    background:var(--plum);
+    min-width:238px;
+    max-width:calc(100vw - 28px);
+    background:linear-gradient(135deg,var(--plum),var(--plum-dark));
     color:#fff;
     text-decoration:none;
-    padding:13px 22px;
+    padding:14px 22px;
     border-radius:999px;
     font-weight:700;
     font-size:16px;
-    line-height:1;
-    box-shadow:0 8px 28px #45263b45;
-    border:1px solid #ffffff30;
-    padding-bottom:calc(13px + env(safe-area-inset-bottom));
+    line-height:1.15;
+    box-shadow:0 10px 30px #45263b55,0 0 0 0 #76285f4d;
+    border:1px solid #ffffff3d;
+    overflow:hidden;
+    isolation:isolate;
+    animation:stickyPulse 2.4s ease-in-out infinite;
+    transition:opacity .22s ease,transform .22s ease,visibility .22s ease;
   }
-  .sticky-order .sticky-arrow{font-size:18px;line-height:1}
-  .sticky-order:active{
-    background:var(--plum-dark);
-    transform:translateX(-50%) scale(.98)
+  .sticky-order::before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    top:-35%;
+    left:-45%;
+    width:28%;
+    height:170%;
+    background:linear-gradient(90deg,transparent,#ffffff42,transparent);
+    transform:rotate(18deg);
+    animation:stickyShine 3.4s ease-in-out infinite;
   }
+  .sticky-order .sticky-text{white-space:nowrap}
+  .sticky-order .sticky-arrow{font-size:18px;line-height:1;animation:stickyArrow 1.5s ease-in-out infinite}
+  .sticky-order:active{background:var(--plum-dark);transform:translateX(-50%) scale(.97)}
+  .sticky-order.is-hidden{opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(18px) scale(.96);animation:none}
+}
+@keyframes stickyPulse{
+  0%,100%{box-shadow:0 10px 30px #45263b55,0 0 0 0 #76285f3d}
+  50%{box-shadow:0 12px 34px #45263b66,0 0 0 7px #76285f00}
+}
+@keyframes stickyShine{
+  0%,55%{left:-45%;opacity:0}
+  65%{opacity:1}
+  82%{left:125%;opacity:0}
+  100%{left:125%;opacity:0}
+}
+@keyframes stickyArrow{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(3px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .sticky-order,.sticky-order::before,.sticky-order .sticky-arrow{animation:none!important}
 }
 
 .success{text-align:center;padding:24px 8px}.success>span{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#e8f3eb;color:#2f7545;font-size:28px}.success h2{color:var(--plum);margin:13px 0 5px;font-size:24px}.success p{color:var(--muted);font-size:14px;margin:0}
