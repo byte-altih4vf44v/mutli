@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/01-main.webp" type="image/webp" fetchpriority="high" decoding="async">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260930-8">
+  <link rel="stylesheet" href="styles.css?v=20261001-9">
 </head>
 <body>
   <main>
@@ -23,27 +23,80 @@
 
     <section class="order-section" id="order">
       <div class="order-wrap">
-        <div class="intro"><h1>اختاري باقتك… وكل ما زادت الكمية زاد التوفير 💗</h1><p>املئي بياناتك لإرسال طلبك — الدفع عند الاستلام</p></div>
+        <div class="intro">
+          <span class="order-kicker">MULTI COLLAGEN PEPTIDES</span>
+          <h1>اختاري باقتك ووفّري أكثر مع الاستمرارية ✨</h1>
+          <p>اختاري العرض المناسب، أكملي بيانات التوصيل، والدفع عند الاستلام</p>
+        </div>
+
+        <div class="trust-row" aria-label="مزايا الطلب">
+          <span>✓ الدفع عند الاستلام</span>
+          <span>✓ طلب سريع</span>
+          <span>✓ تأكيد الطلب بعد الإرسال</span>
+        </div>
+
         <form id="order-form" class="order-card">
-          <fieldset class="offers"><legend class="visually-hidden">اختاري باقتك</legend>
-            <label class="offer"><input type="radio" name="offer" value="1" checked><span class="details"><b>1 عبوة</b><small>تكفيك شهر</small></span><span class="price"><strong>189 ريال</strong><del>345 ريال</del></span></label>
-            <label class="offer"><input type="radio" name="offer" value="2"><span class="details"><b>2 عبوة</b><small>تكفيك شهرين</small></span><span class="price"><strong>249 ريال</strong><small>وفري 129 ريال</small></span></label>
-            <label class="offer"><input type="radio" name="offer" value="3"><span class="details"><b>3 عبوات</b><small>تكفيك 3 أشهر</small></span><span class="price"><strong>290 ريال</strong><small>وفري 277 ريال 🔥</small></span></label>
-          </fieldset>
-          <div class="fields">
-            <label><span class="visually-hidden">الاسم الكامل</span><input name="name" autocomplete="name" placeholder="الإسم الكامل" required minlength="2"></label>
-            <label><span class="visually-hidden">رقم الهاتف</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="رقم الهاتف" required></label>
-            <label><span class="visually-hidden">العنوان</span><input name="address" autocomplete="street-address" placeholder="العنوان" required></label>
+          <div class="step-head">
+            <span class="step-num">1</span>
+            <div><b>اختاري العرض المناسب لك</b><small>كلما زادت الكمية زاد التوفير</small></div>
           </div>
-          <p class="check-note">الرجاء التأكد من معلوماتك قبل الإرسال</p>
-          <button class="submit" type="submit">إرسال الطلب - الدفع عند الاستلام</button>
+
+          <fieldset class="offers"><legend class="visually-hidden">اختاري باقتك</legend>
+            <label class="offer">
+              <input type="radio" name="offer" value="1">
+              <span class="offer-copy">
+                <span class="details"><b>باقة البداية</b><small>1 عبوة — تكفيك شهر</small></span>
+                <span class="price"><strong>189 ريال</strong><del>345 ريال</del></span>
+              </span>
+            </label>
+
+            <label class="offer featured popular">
+              <input type="radio" name="offer" value="2" checked>
+              <span class="offer-badge">الأكثر طلبًا</span>
+              <span class="offer-copy">
+                <span class="details"><b>باقة التوفير</b><small>2 عبوة — تكفيك شهرين</small></span>
+                <span class="price"><strong>249 ريال</strong><small class="saving">وفّري 129 ريال</small></span>
+              </span>
+            </label>
+
+            <label class="offer featured value">
+              <input type="radio" name="offer" value="3">
+              <span class="offer-badge">أفضل قيمة</span>
+              <span class="offer-copy">
+                <span class="details"><b>الباقة الذهبية</b><small>3 عبوات — تكفيك 3 أشهر</small></span>
+                <span class="price"><strong>290 ريال</strong><small class="saving">وفّري 277 ريال</small></span>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="form-divider"></div>
+
+          <div class="step-head delivery-step">
+            <span class="step-num">2</span>
+            <div><b>أين نرسل طلبك؟</b><small>أدخلي بياناتك بشكل صحيح لتأكيد الطلب</small></div>
+          </div>
+
+          <div class="fields">
+            <label><span class="visually-hidden">الاسم الكامل</span><input name="name" autocomplete="name" placeholder="الاسم الكامل" required minlength="2"></label>
+            <label><span class="visually-hidden">رقم الهاتف</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="رقم الهاتف" required></label>
+            <label><span class="visually-hidden">العنوان</span><input name="address" autocomplete="street-address" placeholder="المدينة والحي والعنوان" required></label>
+          </div>
+
+          <div class="cod-note">
+            <span class="cod-icon">✓</span>
+            <div><b>لن تدفعي الآن</b><small>الدفع عند استلام طلبك</small></div>
+          </div>
+
+          <button class="submit" type="submit">أكملي طلبك الآن — الدفع عند الاستلام</button>
+          <p class="check-note">بعد الإرسال سنتواصل معك لتأكيد بيانات الطلب</p>
           <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
         </form>
-        <p class="bottom-note">اطلبي Multi Collagen Peptides الآن واستفيدي من الخصم</p>
+
+        <p class="bottom-note">اختاري باقتك اليوم وابدئي روتين Multi Collagen</p>
       </div>
     </section>
   </main>
-  <a class="sticky-order" href="#order" aria-label="شاهدي العرض وانتقلي إلى نموذج الطلب"><span class="sticky-text">شاهدي العرض واطلبي الآن</span><span class="sticky-arrow" aria-hidden="true">↓</span></a>
+  <a class="sticky-order" href="#order" aria-label="شاهدي العرض وانتقلي إلى نموذج الطلب"><span class="sticky-text">اطلبي الآن — الدفع عند الاستلام</span><span class="sticky-arrow" aria-hidden="true">↓</span></a>
   <script src="app.js?v=20261001-1" defer></script>
 </body>
 </html>
