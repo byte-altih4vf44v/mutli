@@ -341,3 +341,159 @@
   .offer-copy{align-items:flex-start}
   .price strong{font-size:14px}
 }
+
+
+/* Editorial trust section and transparent proof notes */
+.proof-image{margin:0;background:#fff}
+.proof-image figcaption{
+  max-width:941px;
+  margin:0 auto;
+  padding:12px 18px;
+  border-bottom:1px solid #f0e5eb;
+  background:#fff9fc;
+  color:#725c6b;
+  font-size:12px;
+  line-height:1.8;
+  text-align:center
+}
+.product-guide{
+  padding:48px 16px 42px;
+  background:linear-gradient(180deg,#fffafc 0,#fff 90%)
+}
+.content-wrap{width:min(790px,100%);margin:0 auto}
+.section-eyebrow{
+  display:inline-block;
+  padding:5px 12px;
+  border:1px solid #ead4e1;
+  border-radius:999px;
+  color:var(--plum);
+  background:#fff;
+  font-size:11px;
+  font-weight:700
+}
+.product-guide h2{
+  margin:10px 0 7px;
+  color:#462c40;
+  font-size:clamp(22px,4vw,30px);
+  line-height:1.45
+}
+.section-lead{
+  max-width:650px;
+  margin:0 0 23px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9
+}
+.formula-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.formula-card{
+  min-height:154px;
+  padding:17px 16px;
+  border:1px solid #ecdeE6;
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 9px 26px #50203c09
+}
+.formula-mark{
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  background:#f8ebf2;
+  color:var(--plum);
+  font-size:11px;
+  font-weight:700
+}
+.formula-card h3{margin:11px 0 5px;color:#3f2d3b;font-size:15px}
+.formula-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.8}
+.trust-panel{
+  margin:18px 0 0;
+  padding:20px;
+  border:1px solid #e8d8e2;
+  border-radius:18px;
+  background:linear-gradient(135deg,#fff,#fff8fb)
+}
+.trust-panel h3{margin:0 0 12px;color:var(--plum);font-size:18px}
+.trust-panel ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0;margin:0;list-style:none}
+.trust-panel li{display:flex;align-items:flex-start;gap:9px}
+.trust-panel li>span:first-child{
+  flex:0 0 23px;
+  display:grid;
+  place-items:center;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  background:#e8f3eb;
+  color:#347048;
+  font-size:12px;
+  font-weight:800
+}
+.trust-panel li>span:last-child{display:flex;flex-direction:column;gap:4px}
+.trust-panel b{color:#443543;font-size:12px}
+.trust-panel small{color:var(--muted);font-size:11px;line-height:1.65}
+.proof-note{
+  margin:17px 0 0;
+  padding:15px 17px;
+  border-right:3px solid #c8a568;
+  border-radius:10px;
+  background:#fbf8f1
+}
+.proof-note b{color:#58462b;font-size:13px}
+.proof-note p{margin:5px 0 0;color:#6e6557;font-size:12px;line-height:1.9}
+.faq{margin-top:34px}
+.faq h2{margin:0 0 11px;font-size:21px}
+.faq details{
+  margin:8px 0;
+  border:1px solid #eadde5;
+  border-radius:13px;
+  background:#fff
+}
+.faq summary{
+  position:relative;
+  padding:14px 17px;
+  color:#3f2d3b;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  list-style:none
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;left:16px;color:var(--plum);font-size:18px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0;padding:0 17px 15px;color:var(--muted);font-size:12px;line-height:1.9}
+.guide-cta{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:fit-content;
+  max-width:100%;
+  margin:24px auto 0;
+  padding:13px 20px;
+  border-radius:12px;
+  background:var(--plum);
+  color:#fff;
+  text-align:center;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  box-shadow:0 9px 22px #76285f25
+}
+.guide-cta:hover{background:var(--plum-dark)}
+.guide-cta span{font-size:18px}
+@media(max-width:600px){
+  .proof-image figcaption{padding:10px 13px;font-size:10px}
+  .product-guide{padding:35px 14px 32px}
+  .section-lead{font-size:13px}
+  .formula-grid{grid-template-columns:1fr;gap:9px}
+  .formula-card{min-height:0;padding:14px 15px}
+  .formula-mark{float:right;margin-left:11px}
+  .formula-card h3{margin:0 0 4px;padding-top:2px}
+  .formula-card p{font-size:11px}
+  .trust-panel{padding:16px 14px}
+  .trust-panel ul{grid-template-columns:1fr;gap:13px}
+  .trust-panel b{font-size:12px}
+  .trust-panel small{font-size:10px}
+  .faq{margin-top:28px}
+  .guide-cta{width:100%;font-size:13px;padding:13px 12px}
+}
