@@ -17,6 +17,15 @@ const PRODUCTS = {
       2: {label: 'باقة التوفير — 2 عبوة / 60 حصة', price: 249},
       3: {label: 'الباقة الذهبية — 3 عبوات / 90 حصة', price: 290}
     }
+  },
+  'GLUTA-COLLAGEN-DTX': {
+    product: 'Gluta Collagen DTX+ Mixed Berry',
+    packages: {
+      1: {label: 'باقة البداية — 1 عبوة', price: 178},
+      2: {label: 'باقة التوفير — 2 عبوة', price: 289},
+      3: {label: 'الباقة الذهبية — 3 عبوات', price: 359},
+      5: {label: 'باقة الاستمرارية — 5 عبوات', price: 499}
+    }
   }
 };
 
