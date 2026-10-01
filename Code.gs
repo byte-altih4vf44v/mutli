@@ -26,6 +26,15 @@ const PRODUCTS = {
       3: {label: 'الباقة الذهبية — 3 عبوات', price: 359},
       5: {label: 'باقة الاستمرارية — 5 عبوات', price: 499}
     }
+  },
+  'GLUTA-COLLAGEN-PINK': {
+    product: 'Manee Gluta Collagen Pink',
+    packages: {
+      1: {label: 'باقة البداية — 1 عبوة', price: 178},
+      2: {label: 'باقة التوفير — 2 عبوة', price: 289},
+      3: {label: 'الباقة الذهبية — 3 عبوات', price: 359},
+      5: {label: 'باقة الاستمرارية — 5 عبوات', price: 499}
+    }
   }
 };
 
