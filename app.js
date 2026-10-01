@@ -5,9 +5,9 @@ const CONFIG = {
   product: 'Multi Collagen Peptides',
   sku: 'MULTI-COLLAGEN',
   offers: [
-    { label: '1 عبوة — تكفيك شهر', price: 189 },
-    { label: '2 عبوة — تكفيك شهرين', price: 249 },
-    { label: '3 عبوات — تكفيك 3 أشهر', price: 290 }
+    { label: '1 عبوة — تكفيك شهر', price: 198 },
+    { label: '2 عبوة — تكفيك شهرين', price: 294 },
+    { label: '3 عبوات — تكفيك 3 أشهر', price: 376 }
   ]
 };
 
