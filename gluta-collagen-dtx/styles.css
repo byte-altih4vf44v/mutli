@@ -102,3 +102,20 @@
     object-fit:cover;
   }
 }
+
+
+.results-grid{
+  max-width:820px;
+  margin:0 auto;
+}
+.result-card-wide{
+  grid-column:1 / -1;
+  width:min(100%,520px);
+  justify-self:center;
+}
+@media(max-width:760px){
+  .result-card-wide{
+    grid-column:auto;
+    width:100%;
+  }
+}
