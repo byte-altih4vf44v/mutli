@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compare current gallery images to exact hero
+      - name: Compare current gallery images visually to exact hero
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/gallery
+          mkdir -p /tmp/gallery/raw
           cp assets/hero-exact-upload.png /tmp/gallery/exact.png
           urls=(
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-06-47-pm-FEIuqUXeb2hexOYhSBPUBPJLkVP.png"
@@ -27,14 +27,26 @@ jobs:
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-12-14-pm-6-FEIvjUcXYcqnuyIzFkOjSTVOA16.png"
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-00-pm-2-FEIvqCckWr9kF1gccBZjSRz11g9.png"
           )
-          echo "EXACT $(sha256sum /tmp/gallery/exact.png | awk '{print $1}')"
+          ffmpeg -v error -i /tmp/gallery/exact.png -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo /tmp/gallery/raw/exact.rgb
           i=2
           for u in "${urls[@]}"; do
-            out="/tmp/gallery/$i.png"
+            out="/tmp/gallery/$i.img"
             curl -fsSL "$u" -o "$out"
-            echo "IMG$i $(sha256sum "$out" | awk '{print $1}') $(file -b "$out")"
-            if cmp -s /tmp/gallery/exact.png "$out"; then
-              echo "MATCH_EXACT IMG$i"
-            fi
+            ffmpeg -v error -i "$out" -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo "/tmp/gallery/raw/$i.rgb"
             i=$((i+1))
           done
+          ffmpeg -v error -i assets/hero-before-after-v2.webp -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo /tmp/gallery/raw/oldhero.rgb
+          python - <<'PY'
+          import math, os
+          base=open('/tmp/gallery/raw/exact.rgb','rb').read()
+          def score(path):
+              b=open(path,'rb').read()
+              n=min(len(base),len(b))
+              diffs=[abs(base[i]-b[i]) for i in range(n)]
+              mae=sum(diffs)/n
+              rmse=math.sqrt(sum(d*d for d in diffs)/n)
+              return mae,rmse
+          for name in [str(i) for i in range(2,11)]+['oldhero']:
+              mae,rmse=score(f'/tmp/gallery/raw/{name}.rgb')
+              print(f'VISUAL {name} MAE={mae:.4f} RMSE={rmse:.4f}')
+          PY
