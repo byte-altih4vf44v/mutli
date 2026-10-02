@@ -1,0 +1,40 @@
+name: Check duplicate hero
+
+on:
+  push:
+    paths:
+      - ".github/workflows/check-duplicate.yml"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare current gallery images to exact hero
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/gallery
+          cp assets/hero-exact-upload.png /tmp/gallery/exact.png
+          urls=(
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-06-47-pm-FEIuqUXeb2hexOYhSBPUBPJLkVP.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-01-pm-3-FEIw3mS5nBwJJhHBhvhXJL53rr4.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-55-pm-3-FEIuzOTz4FWo6PWoYXnutrss5I1.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-04-39-pm-3-FEIuuz0OYMJXwBCiaQxkOHUdTab.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-54-pm-2-FEIvCXhtFiADQF31FWFQdxFZ0yR.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/02-hair-FEIvcMBN37XtzFalS3qcEyuxUZ1.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-04-36-pm-1-FEIwFhqBw0smo9jNUuVq2lyexDx.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-12-14-pm-6-FEIvjUcXYcqnuyIzFkOjSTVOA16.png"
+            "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-00-pm-2-FEIvqCckWr9kF1gccBZjSRz11g9.png"
+          )
+          echo "EXACT $(sha256sum /tmp/gallery/exact.png | awk '{print $1}')"
+          i=2
+          for u in "${urls[@]}"; do
+            out="/tmp/gallery/$i.png"
+            curl -fsSL "$u" -o "$out"
+            echo "IMG$i $(sha256sum "$out" | awk '{print $1}') $(file -b "$out")"
+            if cmp -s /tmp/gallery/exact.png "$out"; then
+              echo "MATCH_EXACT IMG$i"
+            fi
+            i=$((i+1))
+          done
