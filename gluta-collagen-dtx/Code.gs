@@ -5,9 +5,16 @@ const PRODUCTS = {
   'MULTI-COLLAGEN': {
     product: 'Multi Collagen Peptides',
     packages: {
-      1: {label: '1 عبوة — تكفيك شهر', price: 189},
-      2: {label: '2 عبوة — تكفيك شهرين', price: 249},
-      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 290}
+      1: {label: '1 عبوة — تكفيك شهر', price: 194},
+      2: {label: '2 عبوة — تكفيك شهرين', price: 285},
+      3: {label: '3 عبوات — تكفيك 3 أشهر', price: 359}
+    }
+  },
+  'BISHT-ROYAL': {
+    product: 'بشت التميز الملكي',
+    packages: {
+      1: {label: 'بشت واحد', price: 399},
+      2: {label: '2 بشت — واحد لك والثاني لشخص عزيز عليك', price: 549}
     }
   },
   'COSMA-COLLAGEN': {
@@ -20,6 +27,15 @@ const PRODUCTS = {
   },
   'GLUTA-COLLAGEN-DTX': {
     product: 'Gluta Collagen DTX+ Mixed Berry',
+    packages: {
+      1: {label: 'باقة البداية — 1 عبوة', price: 178},
+      2: {label: 'باقة التوفير — 2 عبوة', price: 289},
+      3: {label: 'الباقة الذهبية — 3 عبوات', price: 359},
+      5: {label: 'باقة الاستمرارية — 5 عبوات', price: 499}
+    }
+  },
+  'GLUTA-COLLAGEN-PINK': {
+    product: 'Manee Gluta Collagen Pink',
     packages: {
       1: {label: 'باقة البداية — 1 عبوة', price: 178},
       2: {label: 'باقة التوفير — 2 عبوة', price: 289},
