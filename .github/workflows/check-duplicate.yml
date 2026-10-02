@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install image comparison dependency
+        run: python -m pip install --quiet pillow
       - name: Compare current gallery images visually to exact hero
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/gallery/raw
+          mkdir -p /tmp/gallery
           cp assets/hero-exact-upload.png /tmp/gallery/exact.png
           urls=(
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-06-47-pm-FEIuqUXeb2hexOYhSBPUBPJLkVP.png"
@@ -27,26 +29,32 @@ jobs:
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-12-14-pm-6-FEIvjUcXYcqnuyIzFkOjSTVOA16.png"
             "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-00-pm-2-FEIvqCckWr9kF1gccBZjSRz11g9.png"
           )
-          ffmpeg -v error -i /tmp/gallery/exact.png -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo /tmp/gallery/raw/exact.rgb
           i=2
           for u in "${urls[@]}"; do
-            out="/tmp/gallery/$i.img"
-            curl -fsSL "$u" -o "$out"
-            ffmpeg -v error -i "$out" -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo "/tmp/gallery/raw/$i.rgb"
+            curl -fsSL "$u" -o "/tmp/gallery/$i.img"
             i=$((i+1))
           done
-          ffmpeg -v error -i assets/hero-before-after-v2.webp -vf "scale=64:64:flags=lanczos,format=rgb24" -f rawvideo /tmp/gallery/raw/oldhero.rgb
+          cp assets/hero-before-after-v2.webp /tmp/gallery/oldhero.webp
           python - <<'PY'
+          from PIL import Image, ImageChops, ImageStat
           import math, os
-          base=open('/tmp/gallery/raw/exact.rgb','rb').read()
-          def score(path):
-              b=open(path,'rb').read()
-              n=min(len(base),len(b))
-              diffs=[abs(base[i]-b[i]) for i in range(n)]
-              mae=sum(diffs)/n
-              rmse=math.sqrt(sum(d*d for d in diffs)/n)
-              return mae,rmse
-          for name in [str(i) for i in range(2,11)]+['oldhero']:
-              mae,rmse=score(f'/tmp/gallery/raw/{name}.rgb')
-              print(f'VISUAL {name} MAE={mae:.4f} RMSE={rmse:.4f}')
+          def prep(path):
+              im=Image.open(path).convert('RGB').resize((96,96),Image.Resampling.LANCZOS)
+              return im
+          base=prep('/tmp/gallery/exact.png')
+          def scores(path):
+              im=prep(path)
+              d=ImageChops.difference(base,im)
+              stat=ImageStat.Stat(d)
+              mae=sum(stat.mean)/3
+              rms=sum(stat.rms)/3
+              return mae,rms
+          vals=[]
+          for i in range(2,11):
+              mae,rms=scores(f'/tmp/gallery/{i}.img')
+              vals.append((mae,rms,str(i)))
+          mae,rms=scores('/tmp/gallery/oldhero.webp')
+          vals.append((mae,rms,'oldhero'))
+          for mae,rms,name in sorted(vals):
+              print(f'VISUAL {name} MAE={mae:.4f} RMS={rms:.4f}')
           PY
