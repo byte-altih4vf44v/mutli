@@ -5,9 +5,9 @@ const CONFIG = {
   product: 'Multi Collagen Peptides',
   sku: 'MULTI-COLLAGEN',
   offers: [
-    { label: 'باقة البداية — عبوة واحدة، تكفيك شهر', price: 198 },
-    { label: 'باقة الاستمرارية — عبوتان، تكفيك شهرين', price: 294 },
-    { label: 'باقة التوفير — 3 عبوات، تكفيك 3 أشهر', price: 376 }
+    { label: 'باقة البداية — عبوة واحدة، 30 يوم', price: 194 },
+    { label: 'باقة الاستمرارية — عبوتان، 60 يوم', price: 285 },
+    { label: 'باقة التوفير — 3 عبوات، 90 يوم', price: 359 }
   ]
 };
 
