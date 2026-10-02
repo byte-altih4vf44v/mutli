@@ -26,11 +26,14 @@ jobs:
             --output assets/hero-exact-upload.png
           test -s assets/hero-exact-upload.png
           python - <<'PY'
-          from PIL import Image
+          import struct
           p = "assets/hero-exact-upload.png"
-          im = Image.open(p)
-          assert im.size == (941, 1672), im.size
-          print("verified", im.size, im.mode)
+          with open(p, "rb") as fh:
+              sig = fh.read(24)
+          assert sig[:8] == b"\x89PNG\r\n\x1a\n", "not a PNG"
+          w, h = struct.unpack(">II", sig[16:24])
+          assert (w, h) == (941, 1672), (w, h)
+          print("verified", (w, h))
           PY
 
       - name: Commit exact hero image
