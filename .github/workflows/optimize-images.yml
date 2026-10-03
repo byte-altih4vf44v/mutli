@@ -1,6 +1,7 @@
 name: Optimize landing images
 
 on:
+  workflow_dispatch:
   push:
     branches: ["main"]
     paths:
@@ -24,69 +25,68 @@ jobs:
       - name: Install Pillow
         run: python -m pip install --quiet Pillow
 
-      - name: Convert PNG images to optimized WebP
+      - name: Build lightweight responsive WebP assets
         run: |
           python - <<'PY'
-          from PIL import Image
+          from PIL import Image, ImageOps
           from pathlib import Path
-          import re
+          from urllib.request import Request, urlopen
+          from io import BytesIO
 
-          names = ["01-main", "02-why", "03-results", "04-reviews", "05-offers"]
+          assets = Path("assets")
+          assets.mkdir(exist_ok=True)
 
-          for name in names:
-              src = Path("assets") / f"{name}.png"
-              out = Path("assets") / f"{name}.webp"
-              img = Image.open(src)
-              w, h = img.size
-
+          def rgb(img):
+              img = ImageOps.exif_transpose(img)
               if img.mode in ("RGBA", "LA"):
                   bg = Image.new("RGB", img.size, "white")
                   alpha = img.getchannel("A")
                   bg.paste(img.convert("RGB"), mask=alpha)
-                  img = bg
-              else:
-                  img = img.convert("RGB")
+                  return bg
+              return img.convert("RGB")
 
-              img.save(out, "WEBP", quality=88, method=6, optimize=True)
-              before = src.stat().st_size
-              after = out.stat().st_size
-              print(f"{name}: {w}x{h} | {before/1024/1024:.2f} MB -> {after/1024/1024:.2f} MB")
+          def save_resized(img, out, max_w, quality):
+              img = rgb(img)
+              if img.width > max_w:
+                  h = round(img.height * max_w / img.width)
+                  img = img.resize((max_w, h), Image.Resampling.LANCZOS)
+              img.save(out, "WEBP", quality=quality, method=6, optimize=True)
+              print(f"{out}: {img.width}x{img.height} | {Path(out).stat().st_size/1024:.0f} KB")
 
-          index_path = Path("index.html")
-          html = index_path.read_text(encoding="utf-8")
+          hero_sources = {
+              "hero-skin": assets / "hero-exact-upload.png",
+              "hero-hair": assets / "hero-hair-refined-20261003.png",
+          }
+          for stem, src in hero_sources.items():
+              with Image.open(src) as im:
+                  save_resized(im.copy(), assets / f"{stem}-480.webp", 480, 78)
+                  save_resized(im.copy(), assets / f"{stem}-800.webp", 800, 82)
 
-          for name in names:
-              html = html.replace(f"assets/{name}.png", f"assets/{name}.webp")
-
-          html = html.replace(
-              '<link rel="stylesheet" href="styles.css?v=20260930-2">',
-              '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
-              '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-              '  <link rel="preload" as="image" href="assets/01-main.webp" type="image/webp" fetchpriority="high">\n'
-              '  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">\n'
-              '  <link rel="stylesheet" href="styles.css?v=20260930-3">'
-          )
-
-          html = html.replace('fetchpriority="high">', 'fetchpriority="high" decoding="async">')
-          html = html.replace('loading="lazy">', 'loading="lazy" decoding="async">')
-          html = html.replace('src="app.js?v=20260930-2"', 'src="app.js?v=20260930-3" defer')
-
-          index_path.write_text(html, encoding="utf-8")
-
-          css_path = Path("styles.css")
-          css = css_path.read_text(encoding="utf-8")
-          css = re.sub(r"^@import url\([^\n]+\);\n?", "", css)
-          css_path.write_text(css, encoding="utf-8")
+          remote = [
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-06-47-pm-FEIuqUXeb2hexOYhSBPUBPJLkVP.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-01-pm-3-FEIw3mS5nBwJJhHBhvhXJL53rr4.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-55-pm-3-FEIuzOTz4FWo6PWoYXnutrss5I1.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-54-pm-2-FEIvCXhtFiADQF31FWFQdxFZ0yR.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-04-36-pm-1-FEIwFhqBw0smo9jNUuVq2lyexDx.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-12-14-pm-6-FEIvjUcXYcqnuyIzFkOjSTVOA16.png",
+              "https://assets.youcan.shop/stores/beb4e8052920fe765a0e259c47b26b72df0d8d83/chatgpt-image-oct-1-2026-06-05-00-pm-2-FEIvqCckWr9kF1gccBZjSRz11g9.png",
+          ]
+          for i, url in enumerate(remote, 1):
+              req = Request(url, headers={"User-Agent":"Mozilla/5.0"})
+              with urlopen(req, timeout=45) as res:
+                  data = res.read()
+              with Image.open(BytesIO(data)) as im:
+                  save_resized(im, assets / f"page-{i:02d}.webp", 900, 78)
           PY
 
       - name: Commit optimized assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/*.webp index.html styles.css
+          git add assets/hero-skin-*.webp assets/hero-hair-*.webp assets/page-*.webp
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Optimize landing page images for faster mobile loading"
+            git commit -m "Compress hero and landing images for faster loading"
             git push
           fi
