@@ -1,0 +1,30 @@
+name: Import refined hair hero
+
+on:
+  push:
+    paths:
+      - '.github/workflows/import-refined-hair.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-asset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download refined hair creative
+        env:
+          ASSET_URL: "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/664a7d6a-0a07-4e63-8be1-84bd6841e525/a9a1f182-9254-4dbe-9961-aa340a646720/Edit__input_conservatively__Preserve_the_SAME_complete_Arabi.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNjk2NTQ3N2M2ZDU0MTdiNyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MTIyNzUxNn0.D643SEUKZzX4OIqBsP6locwkDO8axTmdDB87P2o3S0Q"
+        run: |
+          mkdir -p assets
+          curl --fail --location --retry 3 --retry-delay 2 "$ASSET_URL" -o assets/hero-hair-refined-20261003.png
+          test -s assets/hero-hair-refined-20261003.png
+          file assets/hero-hair-refined-20261003.png
+      - name: Commit permanent asset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hero-hair-refined-20261003.png
+          git commit -m "Add refined original hair results hero creative"
+          git push
