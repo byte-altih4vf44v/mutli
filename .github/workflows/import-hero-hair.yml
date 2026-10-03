@@ -1,0 +1,30 @@
+name: Import premium hair hero asset
+
+on:
+  push:
+    paths:
+      - '.github/workflows/import-hero-hair.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-asset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download generated hero asset
+        env:
+          ASSET_URL: "https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/8c1fb68c-0128-4cd8-a531-0555c3189967/391de6ef-f65d-450e-9ac5-59a09d669b6a/Create_one_standalone_premium_beauty_campaign_photograph_for.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMDUxMTZmM2I5ZDZjMTQ2OSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MTE2OTQ2N30.8a0iPoLD3EPFOi_4tSo_CG_-yQjeq2nQ2eD-ym5BcLA"
+        run: |
+          mkdir -p assets
+          curl --fail --location --retry 3 --retry-delay 2 "$ASSET_URL" -o assets/hero-hair-premium-20261003.png
+          test -s assets/hero-hair-premium-20261003.png
+          file assets/hero-hair-premium-20261003.png
+      - name: Commit permanent asset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/hero-hair-premium-20261003.png
+          git commit -m "Add premium realistic hair hero asset"
+          git push
