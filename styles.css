@@ -731,8 +731,19 @@
   object-position:50% 0%;
   transition:transform .45s ease;
 }
-.result-card--hair .result-card__image img{object-position:50% 0%}
+/* Hair result: preserve the full source image so the complete hair length stays visible. */
+.result-card--hair .result-card__image{
+  background:
+    radial-gradient(circle at 50% 38%,#fff 0,#fbf3f7 56%,#f2e2eb 100%);
+}
+.result-card--hair .result-card__image::after{display:none}
+.result-card--hair .result-card__image img{
+  object-fit:contain;
+  object-position:50% 50%;
+  transform:none;
+}
 .results-hero__visuals:hover .result-card__image img{transform:scale(1.015)}
+.results-hero__visuals:hover .result-card--hair .result-card__image img{transform:none}
 .result-card figcaption{
   min-height:72px;
   display:flex;
@@ -805,7 +816,7 @@
   .results-hero__intro p{font-size:11px;line-height:1.7}
   .results-hero__visuals{gap:7px}
   .result-card{border-radius:16px;box-shadow:0 12px 28px #4e183716}
-  .result-card__image{aspect-ratio:9/15.7}
+  .result-card__image{aspect-ratio:9/16.4}
   .result-card figcaption{min-height:61px;padding:8px 5px 9px}
   .result-card figcaption strong{font-size:12px}
   .result-card figcaption span{font-size:7.5px}
